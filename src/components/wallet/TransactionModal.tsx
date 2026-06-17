@@ -145,9 +145,7 @@ export function TransactionModal({
           )}
         </div>
 
-        {txError && (
-          <ErrorBanner decoded={txError.decoded} raw={txError.raw} />
-        )}
+        {txError && <ErrorBanner decoded={txError.decoded} raw={txError.raw} />}
 
         <div className="mt-5 flex gap-2">
           <button

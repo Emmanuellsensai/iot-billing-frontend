@@ -28,9 +28,15 @@ describe('ErrorDecoder', () => {
     });
 
     it('decodes Soroban host function errors', () => {
-      expect(decoder.tryDecode(SorobanHostFuncError.StorageError)).toContain('storage read exceeded');
-      expect(decoder.tryDecode(SorobanHostFuncError.CpuLimitExceeded)).toContain('CPU instruction limit');
-      expect(decoder.tryDecode(SorobanHostFuncError.ContractError)).toContain('contract returned an error');
+      expect(decoder.tryDecode(SorobanHostFuncError.StorageError)).toContain(
+        'storage read exceeded',
+      );
+      expect(decoder.tryDecode(SorobanHostFuncError.CpuLimitExceeded)).toContain(
+        'CPU instruction limit',
+      );
+      expect(decoder.tryDecode(SorobanHostFuncError.ContractError)).toContain(
+        'contract returned an error',
+      );
     });
 
     it('decodes generic error strings via fallback patterns', () => {

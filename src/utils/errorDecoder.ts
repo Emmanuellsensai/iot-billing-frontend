@@ -22,47 +22,152 @@ export enum SorobanHostFuncError {
 }
 
 const SOROBAN_HOST_ERROR_MAP: Record<number, string> = {
-  [SorobanHostFuncError.UnknownError]: t('soroban.host.unknown', 'Unknown Soroban host error. Contact support.'),
-  [SorobanHostFuncError.ContractError]: t('soroban.host.contract', 'The contract returned an error during execution.'),
-  [SorobanHostFuncError.ValueError]: t('soroban.host.value', 'Invalid value passed to a host function. Check parameter types.'),
-  [SorobanHostFuncError.AccessError]: t('soroban.host.access', 'Access denied to the requested storage entry.'),
-  [SorobanHostFuncError.StorageError]: t('soroban.host.storage', 'Contract storage read exceeded the per-ledger limit.'),
-  [SorobanHostFuncError.XdrError]: t('soroban.host.xdr', 'Failed to decode XDR in the host function.'),
-  [SorobanHostFuncError.UnexpectedTypeError]: t('soroban.host.type', 'Unexpected SCVal type encountered during execution.'),
-  [SorobanHostFuncError.ReadOnlyError]: t('soroban.host.readonly', 'Attempted to write to read-only storage.'),
-  [SorobanHostFuncError.ObjectError]: t('soroban.host.object', 'Invalid object handle referenced in the host.'),
-  [SorobanHostFuncError.CryptoError]: t('soroban.host.crypto', 'Cryptographic operation failed in the host.'),
-  [SorobanHostFuncError.CpuLimitExceeded]: t('soroban.host.cpu', 'Contract exceeded the CPU instruction limit.'),
-  [SorobanHostFuncError.LinearMemoryLimitExceeded]: t('soroban.host.memory', 'Contract exceeded the linear memory limit.'),
-  [SorobanHostFuncError.ArithError]: t('soroban.host.arith', 'Arithmetic overflow or underflow in contract execution.'),
-  [SorobanHostFuncError.UnexpectedDataError]: t('soroban.host.data', 'Unexpected data format from the Soroban host.'),
-  [SorobanHostFuncError.ReentryError]: t('soroban.host.reentry', 'Reentrant call detected and blocked by the host.'),
-  [SorobanHostFuncError.BudgetExceeded]: t('soroban.host.budget', 'Contract resource budget was exceeded.'),
-  [SorobanHostFuncError.NetworkConfigError]: t('soroban.host.network', 'Network configuration error in the host environment.'),
-  [SorobanHostFuncError.LedgerUpgradeError]: t('soroban.host.ledger', 'Ledger upgrade operation failed in the host.'),
+  [SorobanHostFuncError.UnknownError]: t(
+    'soroban.host.unknown',
+    'Unknown Soroban host error. Contact support.',
+  ),
+  [SorobanHostFuncError.ContractError]: t(
+    'soroban.host.contract',
+    'The contract returned an error during execution.',
+  ),
+  [SorobanHostFuncError.ValueError]: t(
+    'soroban.host.value',
+    'Invalid value passed to a host function. Check parameter types.',
+  ),
+  [SorobanHostFuncError.AccessError]: t(
+    'soroban.host.access',
+    'Access denied to the requested storage entry.',
+  ),
+  [SorobanHostFuncError.StorageError]: t(
+    'soroban.host.storage',
+    'Contract storage read exceeded the per-ledger limit.',
+  ),
+  [SorobanHostFuncError.XdrError]: t(
+    'soroban.host.xdr',
+    'Failed to decode XDR in the host function.',
+  ),
+  [SorobanHostFuncError.UnexpectedTypeError]: t(
+    'soroban.host.type',
+    'Unexpected SCVal type encountered during execution.',
+  ),
+  [SorobanHostFuncError.ReadOnlyError]: t(
+    'soroban.host.readonly',
+    'Attempted to write to read-only storage.',
+  ),
+  [SorobanHostFuncError.ObjectError]: t(
+    'soroban.host.object',
+    'Invalid object handle referenced in the host.',
+  ),
+  [SorobanHostFuncError.CryptoError]: t(
+    'soroban.host.crypto',
+    'Cryptographic operation failed in the host.',
+  ),
+  [SorobanHostFuncError.CpuLimitExceeded]: t(
+    'soroban.host.cpu',
+    'Contract exceeded the CPU instruction limit.',
+  ),
+  [SorobanHostFuncError.LinearMemoryLimitExceeded]: t(
+    'soroban.host.memory',
+    'Contract exceeded the linear memory limit.',
+  ),
+  [SorobanHostFuncError.ArithError]: t(
+    'soroban.host.arith',
+    'Arithmetic overflow or underflow in contract execution.',
+  ),
+  [SorobanHostFuncError.UnexpectedDataError]: t(
+    'soroban.host.data',
+    'Unexpected data format from the Soroban host.',
+  ),
+  [SorobanHostFuncError.ReentryError]: t(
+    'soroban.host.reentry',
+    'Reentrant call detected and blocked by the host.',
+  ),
+  [SorobanHostFuncError.BudgetExceeded]: t(
+    'soroban.host.budget',
+    'Contract resource budget was exceeded.',
+  ),
+  [SorobanHostFuncError.NetworkConfigError]: t(
+    'soroban.host.network',
+    'Network configuration error in the host environment.',
+  ),
+  [SorobanHostFuncError.LedgerUpgradeError]: t(
+    'soroban.host.ledger',
+    'Ledger upgrade operation failed in the host.',
+  ),
 };
 
 const STELLAR_ERROR_MAP: Record<string, string> = {
-  tx_bad_seq: t('stellar.tx_bad_seq', 'Transaction sequence number mismatch. Refresh your wallet and try again.'),
-  tx_insufficient_fee: t('stellar.tx_insufficient_fee', 'Network fees are too low for current congestion. Increase the fee budget.'),
-  tx_failed: t('stellar.tx_failed', 'Transaction execution failed on the Soroban network. Check contract parameters.'),
-  tx_too_late: t('stellar.tx_too_late', 'Transaction submission timed out. The network slot has expired.'),
-  op_underfunded: t('stellar.op_underfunded', 'Insufficient balance for this operation, including required fees.'),
-  op_low_reserve: t('stellar.op_low_reserve', 'Insufficient native asset reserve. Maintain minimum XLM balance.'),
-  op_malformed: t('stellar.op_malformed', 'Operation parameters are malformed. Verify all inputs before retrying.'),
-  op_bad_auth: t('stellar.op_bad_auth', 'Authorization verification failed. Wallet keys may not match the signer.'),
-  contract_not_found: t('stellar.contract_not_found', 'The target Soroban contract was not found on this network. Verify contract ID.'),
-  contract_error: t('stellar.contract_error', 'The Soroban contract returned an error during execution. Check contract logs.'),
-  fee_insufficient: t('stellar.fee_insufficient', 'The fee submitted is below the network minimum for this transaction type.'),
-  bad_sponsorship: t('stellar.bad_sponsorship', 'Sponsorship configuration is invalid. Contact your contract administrator.'),
+  tx_bad_seq: t(
+    'stellar.tx_bad_seq',
+    'Transaction sequence number mismatch. Refresh your wallet and try again.',
+  ),
+  tx_insufficient_fee: t(
+    'stellar.tx_insufficient_fee',
+    'Network fees are too low for current congestion. Increase the fee budget.',
+  ),
+  tx_failed: t(
+    'stellar.tx_failed',
+    'Transaction execution failed on the Soroban network. Check contract parameters.',
+  ),
+  tx_too_late: t(
+    'stellar.tx_too_late',
+    'Transaction submission timed out. The network slot has expired.',
+  ),
+  op_underfunded: t(
+    'stellar.op_underfunded',
+    'Insufficient balance for this operation, including required fees.',
+  ),
+  op_low_reserve: t(
+    'stellar.op_low_reserve',
+    'Insufficient native asset reserve. Maintain minimum XLM balance.',
+  ),
+  op_malformed: t(
+    'stellar.op_malformed',
+    'Operation parameters are malformed. Verify all inputs before retrying.',
+  ),
+  op_bad_auth: t(
+    'stellar.op_bad_auth',
+    'Authorization verification failed. Wallet keys may not match the signer.',
+  ),
+  contract_not_found: t(
+    'stellar.contract_not_found',
+    'The target Soroban contract was not found on this network. Verify contract ID.',
+  ),
+  contract_error: t(
+    'stellar.contract_error',
+    'The Soroban contract returned an error during execution. Check contract logs.',
+  ),
+  fee_insufficient: t(
+    'stellar.fee_insufficient',
+    'The fee submitted is below the network minimum for this transaction type.',
+  ),
+  bad_sponsorship: t(
+    'stellar.bad_sponsorship',
+    'Sponsorship configuration is invalid. Contact your contract administrator.',
+  ),
 };
 
 const RPC_ERROR_MAP: Record<string, string> = {
-  '-32000': t('rpc.unavailable', 'RPC server is unavailable. Check your connection to the Stellar RPC endpoint.'),
-  '-32001': t('rpc.resource_exhausted', 'Resource exhaustion on RPC. Throttle request rate or upgrade your endpoint plan.'),
-  '-32002': t('rpc.simulation_failed', 'Transaction simulation failed. The contract call parameters may be invalid.'),
-  '-32601': t('rpc.method_not_found', 'Method not found on RPC. Your Stellar SDK version may be outdated.'),
-  '-32603': t('rpc.internal_error', 'Internal RPC error. The node encountered an unexpected condition.'),
+  '-32000': t(
+    'rpc.unavailable',
+    'RPC server is unavailable. Check your connection to the Stellar RPC endpoint.',
+  ),
+  '-32001': t(
+    'rpc.resource_exhausted',
+    'Resource exhaustion on RPC. Throttle request rate or upgrade your endpoint plan.',
+  ),
+  '-32002': t(
+    'rpc.simulation_failed',
+    'Transaction simulation failed. The contract call parameters may be invalid.',
+  ),
+  '-32601': t(
+    'rpc.method_not_found',
+    'Method not found on RPC. Your Stellar SDK version may be outdated.',
+  ),
+  '-32603': t(
+    'rpc.internal_error',
+    'Internal RPC error. The node encountered an unexpected condition.',
+  ),
 };
 
 export class ErrorDecoder {
@@ -208,7 +313,10 @@ export class ErrorDecoder {
 
   private fallback(raw: string): string {
     const truncated = raw.length > 120 ? `${raw.slice(0, 120)}...` : raw;
-    return t('error.unhandled', `Unhandled error: ${truncated}. Contact support with this message.`);
+    return t(
+      'error.unhandled',
+      `Unhandled error: ${truncated}. Contact support with this message.`,
+    );
   }
 }
 
