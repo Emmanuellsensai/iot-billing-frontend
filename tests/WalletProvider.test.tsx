@@ -31,9 +31,7 @@ vi.mock('@stellar/freighter-api', () => {
   }
   return {
     WatchWalletChanges: MockWatchWalletChanges,
-    getAddress: vi.fn(() =>
-      Promise.resolve({ address: nextMockAddress(), error: undefined }),
-    ),
+    getAddress: vi.fn(() => Promise.resolve({ address: nextMockAddress(), error: undefined })),
     getNetwork: vi.fn(() =>
       Promise.resolve({
         network: 'testnet',
