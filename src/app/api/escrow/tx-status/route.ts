@@ -22,10 +22,7 @@ export async function GET(request: NextRequest) {
     return NextResponse.json(mockStatus);
   } catch (error) {
     console.error('Error checking transaction status:', error);
-    return NextResponse.json(
-      { error: 'Failed to check transaction status' },
-      { status: 500 },
-    );
+    return NextResponse.json({ error: 'Failed to check transaction status' }, { status: 500 });
   }
 }
 

@@ -30,10 +30,7 @@ const RETRY_DELAY_BASE = 2000;
 const MAX_RETRIES_DEFAULT = 10;
 const DEDUP_WINDOW_MS = 30_000; // 30 seconds
 
-export function useTxRetryQueue(
-  maxRetries: number = MAX_RETRIES_DEFAULT,
-  persistenceKey?: string,
-) {
+export function useTxRetryQueue(maxRetries: number = MAX_RETRIES_DEFAULT, persistenceKey?: string) {
   const [queue, setQueue] = useState<Map<string, QueuedTx>>(new Map());
   const [pendingTxs, setPendingTxs] = useState<PendingTransaction[]>([]);
   const processingRef = useRef(false);

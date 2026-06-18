@@ -1,6 +1,12 @@
 const DB_NAME = 'iot-billing-cache';
 const DB_VERSION = 2;
-const STORES = ['telemetry', 'transactions', 'fleetViews', 'authSession', 'pendingTransactions'] as const;
+const STORES = [
+  'telemetry',
+  'transactions',
+  'fleetViews',
+  'authSession',
+  'pendingTransactions',
+] as const;
 
 type StoreName = (typeof STORES)[number];
 
@@ -26,7 +32,7 @@ function openDb(): Promise<IDBDatabase> {
     request.onupgradeneeded = (event) => {
       const db = request.result;
       const oldVersion = (event as IDBVersionChangeEvent).oldVersion;
-      
+
       // Create stores that don't exist
       STORES.forEach((store) => {
         if (!db.objectStoreNames.contains(store)) {
@@ -41,7 +47,7 @@ function openDb(): Promise<IDBDatabase> {
           }
         }
       });
-      
+
       // Upgrade existing pendingTransactions store if upgrading from v1
       if (oldVersion < 2 && db.objectStoreNames.contains('pendingTransactions')) {
         // Note: Can't modify object store in same version, indexes already created above
@@ -165,7 +171,9 @@ export async function getAllPendingTransactions(): Promise<PendingTransaction[]>
   });
 }
 
-export async function getPendingTransactionsByStatus(status: 'pending' | 'confirmed' | 'failed'): Promise<PendingTransaction[]> {
+export async function getPendingTransactionsByStatus(
+  status: 'pending' | 'confirmed' | 'failed',
+): Promise<PendingTransaction[]> {
   const db = await openDb();
   return new Promise((resolve, reject) => {
     const tx = db.transaction('pendingTransactions', 'readonly');
@@ -206,7 +214,7 @@ export async function deleteCompletedTransactions(): Promise<number> {
     const index = store.index('status');
     const req = index.openCursor(IDBKeyRange.only('confirmed'));
     let count = 0;
-    
+
     req.onsuccess = () => {
       const cursor = req.result;
       if (cursor) {
@@ -215,12 +223,12 @@ export async function deleteCompletedTransactions(): Promise<number> {
         cursor.continue();
       }
     };
-    
+
     tx.oncomplete = () => {
       db.close();
       resolve(count);
     };
-    
+
     tx.onerror = () => {
       db.close();
       reject(tx.error);
