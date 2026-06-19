@@ -10,7 +10,8 @@ import { useWallet } from '@/components/providers/WalletProvider';
  * the "Analytics" section is actually rendered (lazy boundary).
  */
 const TelemetryChart = dynamic(
-  () => import('@/components/dashboard/TelemetryChart').then((m) => ({ default: m.TelemetryChart })),
+  () =>
+    import('@/components/dashboard/TelemetryChart').then((m) => ({ default: m.TelemetryChart })),
   {
     ssr: false,
     loading: () => (
