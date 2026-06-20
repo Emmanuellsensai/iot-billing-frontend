@@ -6,6 +6,7 @@ const STORES = [
   'fleetViews',
   'authSession',
   'pendingTransactions',
+  'pendingMutations',
   'notifications',
 ] as const;
 
