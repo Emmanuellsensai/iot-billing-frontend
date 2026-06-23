@@ -68,10 +68,13 @@ export function useBillingStream(handler: BillingUpdateHandler) {
   }, [handler]);
 
   const isUserInteracting = useCurrencyPref((s) => s.isUserInteracting);
-  const queueTelemetryUpdate = useCurrencyPref((s) => s.queueTelemetryUpdate);
   const flushPendingQueue = useCurrencyPref((s) => s.flushPendingQueue);
   const pendingQueue = useCurrencyPref((s) => s.pendingQueue);
 
+  // Open the billing socket once, on mount. Interaction state is read via
+  // getState() inside onmessage rather than subscribed as an effect dependency,
+  // so toggling the currency selector does NOT tear the socket down and
+  // reconnect it (which would drop any messages arriving in the reconnect gap).
   useEffect(() => {
     let ws: WebSocket | null = null;
     let cancelled = false;
@@ -103,6 +106,17 @@ export function useBillingStream(handler: BillingUpdateHandler) {
           },
           requiresFreshToken ? 0 : backoffDelayMs,
         );
+    ws.onmessage = (event) => {
+      try {
+        const update: BillingUpdate = JSON.parse(event.data);
+        const { isUserInteracting: interacting, queueTelemetryUpdate } = useCurrencyPref.getState();
+
+        if (interacting) {
+          // Queue the update — delivered when interaction ends (see below)
+          queueTelemetryUpdate({ deviceId: update.deviceId, amount: update.amount });
+        } else {
+          handlerRef.current([update]);
+        }
       } catch {
         reconnectTimer = setTimeout(() => {
           void scheduleReconnect(true);
@@ -185,9 +199,11 @@ export function useBillingStream(handler: BillingUpdateHandler) {
       setBillingStreamConnectionState('disconnected');
       ws?.close();
     };
-  }, [isUserInteracting, queueTelemetryUpdate]);
+  }, []);
 
-  // When interaction ends and queue has data, flush it atomically
+  // When interaction ends, deliver the queued updates to the handler and THEN
+  // clear the queue. The store no longer clears it on interaction end, so the
+  // updates survive long enough to be delivered here (fixes silent data loss).
   useEffect(() => {
     if (!isUserInteracting && pendingQueue.length > 0) {
       const queuedUpdates: BillingUpdate[] = pendingQueue.map((q) => ({
