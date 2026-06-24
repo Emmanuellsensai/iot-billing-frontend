@@ -49,7 +49,9 @@ export function NotificationToast() {
           role="alert"
         >
           <div className="min-w-0 flex-1">
-            <p className={`text-sm font-semibold ${NOTIFICATION_SEVERITY_TITLE_CLASSES[n.severity]}`}>
+            <p
+              className={`text-sm font-semibold ${NOTIFICATION_SEVERITY_TITLE_CLASSES[n.severity]}`}
+            >
               {n.title}
             </p>
             <p className="mt-0.5 text-xs opacity-90">{n.message}</p>

@@ -84,7 +84,9 @@ const missing = EXPECTED_CLASSES.filter((cls) => {
 });
 
 if (missing.length > 0) {
-  console.error(`\nERROR: ${missing.length} status/severity class(es) missing from production CSS:\n`);
+  console.error(
+    `\nERROR: ${missing.length} status/severity class(es) missing from production CSS:\n`,
+  );
   missing.forEach((cls) => console.error(`  ✗  ${cls}`));
   console.error(
     '\nThis means Tailwind purged a dynamically-selected class. Add it to the\n' +
@@ -93,4 +95,6 @@ if (missing.length > 0) {
   process.exit(1);
 }
 
-console.log(`\n✓  All ${EXPECTED_CLASSES.length} status/severity classes are present in the production CSS.\n`);
+console.log(
+  `\n✓  All ${EXPECTED_CLASSES.length} status/severity classes are present in the production CSS.\n`,
+);

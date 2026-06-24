@@ -306,14 +306,17 @@ describe('TxStatusPill color classes', () => {
     ['pending', TX_STATUS_CLASSES.pending],
     ['confirmed', TX_STATUS_CLASSES.confirmed],
     ['failed', TX_STATUS_CLASSES.failed],
-  ] as const)('%s status → wrapper carries the correct non-empty color classes', (status, expected) => {
-    const { container } = render(<TxStatusPill transaction={{ ...BASE_TX, status }} />);
-    const wrapper = container.firstElementChild as HTMLElement;
-    expect(expected).toBeTruthy();
-    for (const cls of expected.split(' ')) {
-      expect(wrapper.classList.contains(cls)).toBe(true);
-    }
-  });
+  ] as const)(
+    '%s status → wrapper carries the correct non-empty color classes',
+    (status, expected) => {
+      const { container } = render(<TxStatusPill transaction={{ ...BASE_TX, status }} />);
+      const wrapper = container.firstElementChild as HTMLElement;
+      expect(expected).toBeTruthy();
+      for (const cls of expected.split(' ')) {
+        expect(wrapper.classList.contains(cls)).toBe(true);
+      }
+    },
+  );
 
   it('unknown (default) status → wrapper carries the fallback color classes', () => {
     const tx = { ...BASE_TX, status: 'unknown' as PendingTransaction['status'] };
